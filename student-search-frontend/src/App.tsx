@@ -19,7 +19,7 @@ function App() {
   const searchStudent = async () => {
     try {
       const res = await axios.get<Student>(
-        `http://localhost:5000/student/${rollNo}`
+        `https://student-search-project.onrender.com/${rollNo}`
       );
       setStudent(res.data);
       setError("");
