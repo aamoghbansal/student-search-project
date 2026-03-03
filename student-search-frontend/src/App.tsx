@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./Home";
-import StudentProfile from "./StudentProfile";
+import Home from "./Home.tsx";
+import StudentProfile from "./StudentProfile.tsx";
 
 function App() {
   return (

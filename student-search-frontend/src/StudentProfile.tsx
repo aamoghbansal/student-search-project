@@ -10,14 +10,16 @@ interface Student {
   email: string;
   phone: string;
   cgpa: number;
-  qrCode?: string;
 }
 
 function StudentProfile() {
-  const { rollNo } = useParams();
+  const { rollNo } = useParams<{ rollNo: string }>();
   const [student, setStudent] = useState<Student | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!rollNo) return; // prevent undefined call
+
     const fetchStudent = async () => {
       try {
         const res = await axios.get<Student>(
@@ -26,13 +28,18 @@ function StudentProfile() {
         setStudent(res.data);
       } catch (err) {
         setStudent(null);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchStudent();
   }, [rollNo]);
 
-  if (!student) return <h2 style={{ textAlign: "center" }}>Student not found</h2>;
+  if (loading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+
+  if (!student)
+    return <h2 style={{ textAlign: "center" }}>Student not found</h2>;
 
   return (
     <div style={{ textAlign: "center", marginTop: "100px" }}>
