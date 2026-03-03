@@ -5,7 +5,7 @@ router.post("/add", async (req, res) => {
     const { rollNo, name, branch, year, email, phone, cgpa } = req.body;
 
     // Create profile URL (FRONTEND URL)
-    const profileURL = `https://your-frontend.vercel.app/student/${rollNo}`;
+    const profileURL = `https://student-search-project.vercel.app/student/${rollNo}`;
 
     // Generate QR code as base64
     const qrCode = await QRCode.toDataURL(profileURL);
