@@ -1,31 +1,30 @@
-const express = require("express");
-const router = express.Router();
-const Student = require("../models/Student");
+const QRCode = require("qrcode");
 
-// 🔹 Add Student
 router.post("/add", async (req, res) => {
   try {
-    const student = new Student(req.body);
+    const { rollNo, name, branch, year, email, phone, cgpa } = req.body;
+
+    // Create profile URL (FRONTEND URL)
+    const profileURL = `https://your-frontend.vercel.app/student/${rollNo}`;
+
+    // Generate QR code as base64
+    const qrCode = await QRCode.toDataURL(profileURL);
+
+    const student = new Student({
+      rollNo,
+      name,
+      branch,
+      year,
+      email,
+      phone,
+      cgpa,
+      qrCode
+    });
+
     await student.save();
-    res.status(201).json({ message: "Student added successfully" });
+
+    res.status(201).json({ message: "Student added with QR code" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
-
-// 🔹 Search by Roll No
-router.get("/:rollno", async (req, res) => {
-  try {
-    const student = await Student.findOne({ rollNo: req.params.rollno });
-
-    if (!student) {
-      return res.status(404).json({ message: "Student not found" });
-    }
-
-    res.json(student);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-module.exports = router;

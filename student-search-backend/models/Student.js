@@ -2,12 +2,13 @@ const mongoose = require("mongoose");
 
 const studentSchema = new mongoose.Schema({
   rollNo: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
+  name: String,
   branch: String,
   year: String,
   email: String,
   phone: String,
-  cgpa: Number
-}, { timestamps: true });
+  cgpa: Number,
+  qrCode: String
+});
 
 module.exports = mongoose.model("Student", studentSchema);
